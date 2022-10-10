@@ -1,0 +1,48 @@
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
+import { map, Observable } from 'rxjs';
+
+export class ResponseFormat<T> {
+  @ApiProperty()
+  is_array: boolean;
+
+  @ApiProperty()
+  path: string;
+
+  @ApiProperty()
+  duration: string;
+
+  @ApiProperty()
+  method: string;
+
+  data: T;
+}
+
+@Injectable()
+export class ResponseInterceptor<T>
+  implements NestInterceptor<T, ResponseFormat<T>>
+{
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler<T>,
+  ): Observable<ResponseFormat<T>> {
+    const now = Date.now();
+    const httpContext = context.switchToHttp();
+    const request = httpContext.getRequest();
+
+    return next.handle().pipe(
+      map((data) => ({
+        data,
+        is_array: Array.isArray(data),
+        path: request.path,
+        duration: `${Date.now() - now}ms`,
+        method: request.method,
+      })),
+    );
+  }
+}
