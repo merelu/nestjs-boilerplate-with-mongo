@@ -1,4 +1,8 @@
 import {
+  IBaseMetaResponseFormat,
+  IResponseFormat,
+} from '@domain/response/response.interface';
+import {
   CallHandler,
   ExecutionContext,
   Injectable,
@@ -7,12 +11,12 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { map, Observable } from 'rxjs';
 
-export class ResponseFormat {
-  meta: BaseMetaResponseFormat;
+export class ResponseFormat implements IResponseFormat {
+  meta: IBaseMetaResponseFormat;
   data: Record<string, any>;
 }
 
-export class BaseMetaResponseFormat {
+export class BaseMetaResponseFormat implements IBaseMetaResponseFormat {
   @ApiProperty()
   is_array?: boolean;
 

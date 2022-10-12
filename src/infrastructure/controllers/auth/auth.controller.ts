@@ -5,7 +5,7 @@ import { BaseMetaResponseFormat } from '@infrastructure/common/interceptors/resp
 import { ApiResponseType } from '@infrastructure/common/swagger/response.decorator';
 import { UseCasesProxyModule } from '@infrastructure/usercases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from '@infrastructure/usercases-proxy/usercases-proxy';
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
