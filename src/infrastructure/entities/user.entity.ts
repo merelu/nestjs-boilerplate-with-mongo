@@ -35,6 +35,9 @@ export class User {
     type: Date,
   })
   last_login: Date;
+
+  readonly created_at: Date;
+  readonly updated_at: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

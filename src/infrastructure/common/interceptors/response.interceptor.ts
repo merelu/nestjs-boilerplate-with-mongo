@@ -7,41 +7,45 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { map, Observable } from 'rxjs';
 
-export class ResponseFormat<T> {
+export class ResponseFormat {
+  meta: BaseMetaResponseFormat;
+  data: Record<string, any>;
+}
+
+export class BaseMetaResponseFormat {
   @ApiProperty()
-  is_array: boolean;
+  is_array?: boolean;
 
   @ApiProperty()
-  path: string;
+  path?: string;
 
   @ApiProperty()
-  duration: string;
+  duration?: string;
 
   @ApiProperty()
-  method: string;
-
-  data: T;
+  method?: string;
 }
 
 @Injectable()
-export class ResponseInterceptor<T>
-  implements NestInterceptor<T, ResponseFormat<T>>
-{
+export class ResponseInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
-    next: CallHandler<T>,
-  ): Observable<ResponseFormat<T>> {
+    next: CallHandler<ResponseFormat>,
+  ): Observable<ResponseFormat> {
     const now = Date.now();
     const httpContext = context.switchToHttp();
     const request = httpContext.getRequest();
 
     return next.handle().pipe(
-      map((data) => ({
-        data,
-        is_array: Array.isArray(data),
-        path: request.path,
-        duration: `${Date.now() - now}ms`,
-        method: request.method,
+      map((result) => ({
+        data: result.data,
+        meta: {
+          is_array: Array.isArray(result.data),
+          path: request.path,
+          duration: `${Date.now() - now}ms`,
+          method: request.method,
+          ...result.meta,
+        },
       })),
     );
   }

@@ -52,7 +52,6 @@ export class AllExceptionFilter implements ExceptionFilter {
     exception: any,
   ) {
     if (status === 500) {
-      console.log(exception);
       this.logger.error(
         `End Request for ${request.path}`,
         `method=${request.method}

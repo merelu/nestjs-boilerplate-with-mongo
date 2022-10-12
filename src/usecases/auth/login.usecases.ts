@@ -17,10 +17,10 @@ export class LoginUseCases {
     private readonly bcryptService: IBcryptService,
   ) {}
 
-  async getJwtToken(userId: string) {
+  getJwtToken(userId: string) {
     this.logger.log(
       'LoginUseCases execute',
-      `The user ${userId} have been logged.`,
+      `The user ${userId} have been logged(access_token).`,
     );
     const payload: IJwtServicePayload = { userId: userId };
     const secret = this.jwtConfig.getJwtSecret();
@@ -33,7 +33,7 @@ export class LoginUseCases {
   async getJwtRefreshToken(userId: string) {
     this.logger.log(
       'LoginUseCases execute',
-      `The user ${userId} have been logged.`,
+      `The user ${userId} have been logged(refresh_token).`,
     );
     const payload: IJwtServicePayload = { userId: userId };
     const secret = this.jwtConfig.getJwtRefreshSecret();
@@ -48,7 +48,7 @@ export class LoginUseCases {
     email: string,
     password: string,
   ): Promise<UserWithoutPassword> {
-    const user = await this.userRepository.getUserById(email);
+    const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
       return null;
     }

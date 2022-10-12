@@ -64,11 +64,11 @@ export class DatabaseUserRepository implements UserRepository {
     const user: UserM = new UserM();
     user.id = userEntity._id.toString();
     user.email = userEntity.email;
-    user.password = user.password;
-    user.created_at = user.created_at;
-    user.updated_at = user.updated_at;
-    user.last_login = user.last_login;
-    user.hashed_refresh_token = user.hashed_refresh_token;
+    user.password = userEntity.password;
+    user.created_at = userEntity.created_at;
+    user.updated_at = userEntity.updated_at;
+    user.last_login = userEntity.last_login;
+    user.hashed_refresh_token = userEntity.hashed_refresh_token;
 
     return user;
   }

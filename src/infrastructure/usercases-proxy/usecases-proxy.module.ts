@@ -75,7 +75,7 @@ export class UseCasesProxyModule {
             new UseCaseProxy(new LogoutUseCases(userRepo)),
         },
         {
-          inject: [DatabaseUserRepository],
+          inject: [LoggerService, DatabaseUserRepository, BcryptService],
           provide: UseCasesProxyModule.SIGNUP_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,
