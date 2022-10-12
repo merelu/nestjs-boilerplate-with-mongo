@@ -1,16 +1,15 @@
 ---
 name: Code review
 about: Describe this issue template's purpose here.
-title: "[REVIEW]"
+title: '[REVIEW]'
 labels: question
 assignees: ''
-
 ---
 
-##Script name
+## Script name
 
-##Describe Script
+## Describe Script
 
-##Expected behavior
+## Expected behavior
 
-##Additional context
+## Additional context
