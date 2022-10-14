@@ -12,6 +12,7 @@ import { LocalStrategy } from '@infrastructure/common/strategies/local.strategy'
 import { JwtStrategy } from '@infrastructure/common/strategies/jwt.strategy';
 import { JwtRefreshTokenStrategy } from '@infrastructure/common/strategies/jwt.refresh.strategy';
 import { ControllersModule } from '@infrastructure/controllers/controllers.module';
+import { FirebaseModule } from '@infrastructure/services/firebase/firebase.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ControllersModule } from '@infrastructure/controllers/controllers.modul
     UseCasesProxyModule.register(),
     PassportModule,
     ControllersModule,
+    // FirebaseModule,
   ],
   providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy],
 })
