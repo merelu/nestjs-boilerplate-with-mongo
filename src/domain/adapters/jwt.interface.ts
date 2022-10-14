@@ -1,5 +1,6 @@
 export interface IJwtServicePayload {
   userId: string;
+  hash?: string;
 }
 
 export interface IJwtService {

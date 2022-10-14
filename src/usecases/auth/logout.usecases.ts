@@ -9,7 +9,7 @@ export class LogoutUseCases {
     if (!user) {
       return null;
     }
-    await this.userRepository.updateRefreshToken(userId, null);
+    await this.userRepository.updateRefreshTokenHash(userId, null);
     await this.userRepository.updateDeviceToken(userId, null);
     const { password, ...result } = user;
     return result;

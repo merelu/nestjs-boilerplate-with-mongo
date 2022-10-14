@@ -3,6 +3,7 @@ import {
   IJwtService,
   IJwtServicePayload,
 } from '@domain/adapters/jwt.interface';
+import { IUuidService } from '@domain/adapters/uuid.interface';
 import { JwtConfig } from '@domain/config/jwt.interface';
 import { ILogger } from '@domain/logger/logger.interface';
 import { UserWithoutPassword } from '@domain/model/user';
@@ -15,6 +16,7 @@ export class LoginUseCases {
     private readonly jwtConfig: JwtConfig,
     private readonly userRepository: UserRepository,
     private readonly bcryptService: IBcryptService,
+    private readonly UuidService: IUuidService,
   ) {}
 
   getJwtToken(userId: string) {
@@ -35,11 +37,16 @@ export class LoginUseCases {
       'LoginUseCases execute',
       `The user ${userId} have been logged(refresh_token).`,
     );
-    const payload: IJwtServicePayload = { userId: userId };
+    const uuid = this.UuidService.uuid();
+    const payload: IJwtServicePayload = {
+      userId: userId,
+      hash: uuid,
+    };
+
     const secret = this.jwtConfig.getJwtRefreshSecret();
     const expiresIn = this.jwtConfig.getJwtRefreshExpirationTime() + 's';
     const token = this.jwtTokenService.createToken(payload, secret, expiresIn);
-    await this.setCurrentRefreshToken(token, userId);
+    await this.setCurrentRefreshTokenHash(uuid, userId);
 
     return token;
   }
@@ -73,26 +80,22 @@ export class LoginUseCases {
     await this.userRepository.updateLastLogin(userId);
   }
 
-  async setCurrentRefreshToken(refreshToken: string, userId: string) {
-    const currentHashedRefreshToken = await this.bcryptService.hash(
-      refreshToken,
-    );
-    await this.userRepository.updateRefreshToken(
-      userId,
-      currentHashedRefreshToken,
-    );
+  async setCurrentRefreshTokenHash(key: string, userId: string) {
+    const hashedKey = await this.bcryptService.hash(key);
+    await this.userRepository.updateRefreshTokenHash(userId, hashedKey);
   }
 
-  async getUserIfRefreshTokenMatches(refreshToken: string, userId: string) {
+  async getUserIfRefreshTokenMatches(refreshTokenHash: string, userId: string) {
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
       return null;
     }
 
     const isRefreshTokenMatching = await this.bcryptService.compare(
-      refreshToken,
-      user.hashed_refresh_token,
+      refreshTokenHash,
+      user.refresh_token_hash,
     );
+
     if (isRefreshTokenMatching) {
       return user;
     }

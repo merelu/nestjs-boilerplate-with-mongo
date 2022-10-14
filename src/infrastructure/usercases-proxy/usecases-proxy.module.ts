@@ -3,16 +3,22 @@ import { EnvironmentConfigService } from '@infrastructure/config/environment-con
 import { ExceptionsModule } from '@infrastructure/exceptions/exceptions.module';
 import { LoggerModule } from '@infrastructure/logger/logger.module';
 import { LoggerService } from '@infrastructure/logger/logger.service';
+import { DatabaseContactRepository } from '@infrastructure/repositories/contact.repository';
 import { RepositoriesModule } from '@infrastructure/repositories/repositories.module';
 import { DatabaseUserRepository } from '@infrastructure/repositories/user.repository';
 import { BcryptServiceModule } from '@infrastructure/services/bcrypt/bcrypt.module';
 import { BcryptService } from '@infrastructure/services/bcrypt/bcrypt.service';
 import { JwtServiceModule } from '@infrastructure/services/jwt/jwt.module';
 import { JwtTokenService } from '@infrastructure/services/jwt/jwt.service';
+import { UuidModule } from '@infrastructure/services/uuid/uuid.module';
+import { UuidService } from '@infrastructure/services/uuid/uuid.service';
 import { DynamicModule, Module } from '@nestjs/common';
-import { IsAuthenticatedUseCases } from 'src/usecases/auth/is-authenticated.usercases';
 import { LoginUseCases } from 'src/usecases/auth/login.usecases';
 import { LogoutUseCases } from 'src/usecases/auth/logout.usecases';
+import { AddContactUseCases } from 'src/usecases/contact/add.contact.usecases';
+import { GetContactUseCases } from 'src/usecases/contact/get.contact.usecases';
+import { GetContactsUseCases } from 'src/usecases/contact/get.contacts.usecases';
+import { GetUserUseCases } from 'src/usecases/user/get.user.usecases';
 import { SignupUseCases } from 'src/usecases/user/signup.usecases';
 import { UseCaseProxy } from './usercases-proxy';
 
@@ -21,6 +27,7 @@ import { UseCaseProxy } from './usercases-proxy';
     LoggerModule,
     JwtServiceModule,
     BcryptServiceModule,
+    UuidModule,
     EnvironmentConfigModule,
     RepositoriesModule,
     ExceptionsModule,
@@ -28,9 +35,12 @@ import { UseCaseProxy } from './usercases-proxy';
 })
 export class UseCasesProxyModule {
   static LOGIN_USECASES_PROXY = 'LoginUseCasesProxy';
-  static IS_AUTHENTICATED_USECASES_PROXY = 'IsAuthenticatedUseCasesProxy';
   static LOGOUT_USECASES_PROXY = 'LogoutUseCasesProxy';
   static SIGNUP_USECASES_PROXY = 'SignupUseCasesProxy';
+  static GET_USER_USECASES_PROXY = 'GetUserUseCasesProxy';
+  static ADD_CONTACT_USECASES_PROXY = 'AddContactUseCasesProxy';
+  static GET_CONTACT_USECASES_PROXY = 'GetContactUseCasesProxy';
+  static GET_CONTACTS_USECASES_PROXY = 'GetContactsUseCasesProxy';
 
   static register(): DynamicModule {
     return {
@@ -43,6 +53,7 @@ export class UseCasesProxyModule {
             EnvironmentConfigService,
             DatabaseUserRepository,
             BcryptService,
+            UuidService,
           ],
           provide: UseCasesProxyModule.LOGIN_USECASES_PROXY,
           useFactory: (
@@ -51,6 +62,7 @@ export class UseCasesProxyModule {
             config: EnvironmentConfigService,
             userRepo: DatabaseUserRepository,
             bcryptService: BcryptService,
+            uuidService: UuidService,
           ) =>
             new UseCaseProxy(
               new LoginUseCases(
@@ -59,14 +71,9 @@ export class UseCasesProxyModule {
                 config,
                 userRepo,
                 bcryptService,
+                uuidService,
               ),
             ),
-        },
-        {
-          inject: [DatabaseUserRepository],
-          provide: UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
-          useFactory: (userRepo: DatabaseUserRepository) =>
-            new UseCaseProxy(new IsAuthenticatedUseCases(userRepo)),
         },
         {
           inject: [DatabaseUserRepository],
@@ -86,12 +93,41 @@ export class UseCasesProxyModule {
               new SignupUseCases(logger, userRepo, bcryptService),
             ),
         },
+        {
+          inject: [DatabaseUserRepository],
+          provide: UseCasesProxyModule.GET_USER_USECASES_PROXY,
+          useFactory: (userRepo: DatabaseUserRepository) =>
+            new UseCaseProxy(new GetUserUseCases(userRepo)),
+        },
+        {
+          inject: [LoggerService, DatabaseContactRepository],
+          provide: UseCasesProxyModule.ADD_CONTACT_USECASES_PROXY,
+          useFactory: (
+            logger: LoggerService,
+            contactRepo: DatabaseContactRepository,
+          ) => new UseCaseProxy(new AddContactUseCases(logger, contactRepo)),
+        },
+        {
+          inject: [DatabaseContactRepository],
+          provide: UseCasesProxyModule.GET_CONTACT_USECASES_PROXY,
+          useFactory: (contactRepo: DatabaseContactRepository) =>
+            new UseCaseProxy(new GetContactUseCases(contactRepo)),
+        },
+        {
+          inject: [DatabaseContactRepository],
+          provide: UseCasesProxyModule.GET_CONTACTS_USECASES_PROXY,
+          useFactory: (contactRepo: DatabaseContactRepository) =>
+            new UseCaseProxy(new GetContactsUseCases(contactRepo)),
+        },
       ],
       exports: [
         UseCasesProxyModule.LOGIN_USECASES_PROXY,
-        UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
         UseCasesProxyModule.LOGOUT_USECASES_PROXY,
         UseCasesProxyModule.SIGNUP_USECASES_PROXY,
+        UseCasesProxyModule.GET_USER_USECASES_PROXY,
+        UseCasesProxyModule.ADD_CONTACT_USECASES_PROXY,
+        UseCasesProxyModule.GET_CONTACT_USECASES_PROXY,
+        UseCasesProxyModule.GET_CONTACTS_USECASES_PROXY,
       ],
     };
   }

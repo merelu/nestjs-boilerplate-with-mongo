@@ -6,7 +6,6 @@ import { UseCasesProxyModule } from '@infrastructure/usercases-proxy/usecases-pr
 import { UseCaseProxy } from '@infrastructure/usercases-proxy/usercases-proxy';
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { LoginUseCases } from 'src/usecases/auth/login.usecases';
 
@@ -26,15 +25,14 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
       jwtFromRequest: ExtractJwt.fromBodyField('refresh_token'),
       secretOrKey: configService.getJwtRefreshSecret(),
       ignoreExpiration: false,
-      passReqToCallback: true,
+      // passReqToCallback: true,
     });
   }
 
-  async validate(request: Request, payload: TokenPayload) {
-    const refreshToken = request.body?.refresh_token;
-    const user = this.loginUsecaseProxy
+  async validate(payload: TokenPayload) {
+    const user = await this.loginUsecaseProxy
       .getInstance()
-      .getUserIfRefreshTokenMatches(refreshToken, payload.userId);
+      .getUserIfRefreshTokenMatches(payload.hash, payload.userId);
     if (!user) {
       this.logger.warn(
         'JwtRefreshTokenStrategy',

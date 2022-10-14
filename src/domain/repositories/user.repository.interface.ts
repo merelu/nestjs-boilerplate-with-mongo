@@ -6,5 +6,5 @@ export interface UserRepository {
   getUserByEmail(email: string): Promise<UserM>;
   updateLastLogin(userId: string): Promise<void>;
   updateDeviceToken(userId: string, deviceToken: string): Promise<void>;
-  updateRefreshToken(userId: string, refreshToken: string): Promise<void>;
+  updateRefreshTokenHash(userId: string, refreshToken: string): Promise<void>;
 }
