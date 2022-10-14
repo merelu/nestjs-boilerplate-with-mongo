@@ -11,6 +11,7 @@ export const ApiResponseType = <
 >(
   model: TModel,
   metaModel: MetaModel,
+  is_array?: boolean,
 ) => {
   return applyDecorators(
     ApiOkResponse({
@@ -19,9 +20,11 @@ export const ApiResponseType = <
           { $ref: getSchemaPath(ResponseFormat) },
           {
             properties: {
-              data: {
-                $ref: getSchemaPath(model),
-              },
+              data: is_array
+                ? { type: 'array', items: { $ref: getSchemaPath(model) } }
+                : {
+                    $ref: getSchemaPath(model),
+                  },
               meta: {
                 $ref: getSchemaPath(metaModel),
               },

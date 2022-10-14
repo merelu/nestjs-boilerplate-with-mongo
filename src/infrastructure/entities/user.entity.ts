@@ -29,7 +29,7 @@ export class User {
     type: String,
     default: null,
   })
-  hashed_refresh_token: string;
+  refresh_token_hash: string;
 
   @Prop({
     type: Date,

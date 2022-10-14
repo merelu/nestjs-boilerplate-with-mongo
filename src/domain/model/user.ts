@@ -1,7 +1,7 @@
 export class UserWithoutPassword {
   id: string;
   email: string;
-  hashed_refresh_token: string;
+  refresh_token_hash: string;
   device_token: string;
   last_login: Date;
   created_at: Date;

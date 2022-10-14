@@ -3,7 +3,7 @@ import { UserRepository } from '@domain/repositories/user.repository.interface';
 import { User, UserDocument } from '@infrastructure/entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ClientSession, Model } from 'mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class DatabaseUserRepository implements UserRepository {
@@ -12,11 +12,9 @@ export class DatabaseUserRepository implements UserRepository {
     private readonly userEntityRepository: Model<UserDocument>,
   ) {}
 
-  async insert(user: UserM, session?: ClientSession): Promise<UserM> {
+  async insert(user: UserM): Promise<UserM> {
     const userEntity = this.toUserEntity(user);
-    const result = await this.userEntityRepository.create([userEntity], {
-      session: session,
-    });
+    const result = await this.userEntityRepository.create([userEntity]);
     return this.toUser(result[0]);
   }
 
@@ -45,12 +43,12 @@ export class DatabaseUserRepository implements UserRepository {
     });
   }
 
-  async updateRefreshToken(
+  async updateRefreshTokenHash(
     userId: string,
-    refreshToken: string,
+    refreshTokenHash: string,
   ): Promise<void> {
     await this.userEntityRepository.findByIdAndUpdate(userId, {
-      $set: { hashed_refresh_token: refreshToken },
+      $set: { refresh_token_hash: refreshTokenHash },
     });
   }
 
@@ -68,7 +66,7 @@ export class DatabaseUserRepository implements UserRepository {
     user.created_at = userEntity.created_at;
     user.updated_at = userEntity.updated_at;
     user.last_login = userEntity.last_login;
-    user.hashed_refresh_token = userEntity.hashed_refresh_token;
+    user.refresh_token_hash = userEntity.refresh_token_hash;
 
     return user;
   }
