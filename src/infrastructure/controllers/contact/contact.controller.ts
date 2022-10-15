@@ -1,5 +1,4 @@
 import { AuthJwt } from '@infrastructure/common/decorators/auth.decorator';
-import { JwtAuthGuard } from '@infrastructure/common/guards/jwt.auth.guard';
 import { BaseMetaResponseFormat } from '@infrastructure/common/interceptors/response.interceptor';
 import { ApiResponseType } from '@infrastructure/common/swagger/response.decorator';
 import { UseCasesProxyModule } from '@infrastructure/usercases-proxy/usecases-proxy.module';

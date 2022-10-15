@@ -13,7 +13,6 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const env = process.env.NODE_ENV;
   const app = await NestFactory.create(AppModule);
-
   // filters
   app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
 
@@ -48,6 +47,6 @@ async function bootstrap() {
     });
   }
 
-  await app.listen(3050);
+  await app.listen(process.env.NODE_ENV === 'production' ? 8100 : 8000);
 }
 bootstrap();

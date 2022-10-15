@@ -8,7 +8,7 @@ export const getMongooseModuleOptions = (
   uri:
     process.env.NODE_ENV === 'local'
       ? `mongodb+srv://${config.getDatabaseUser()}:${config.getDatabasePassword()}@${config.getDatabaseHost()}/${config.getDatabaseName()}`
-      : '',
+      : `mongodb+srv://${config.getDatabaseUser()}:${config.getDatabasePassword()}@${config.getDatabaseHost()}/${config.getDatabaseName()}`,
 });
 @Module({
   imports: [
