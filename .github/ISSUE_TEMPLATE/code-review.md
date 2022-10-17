@@ -6,10 +6,18 @@ labels: question
 assignees: ''
 ---
 
-## Script name
+## Scripts
 
-## Describe Script
+검토 필요한 스크립트 파일
+
+## Describe Scripts
+
+스크립트 설명
 
 ## Expected behavior
 
+예상되는 동작
+
 ## Additional context
+
+추가 설명

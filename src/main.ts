@@ -21,7 +21,7 @@ async function bootstrap() {
 
   // interceptors
   app.useGlobalInterceptors(new LoggingInterceptor(new LoggerService()));
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(new ResponseInterceptor(new LoggerService()));
 
   app.setGlobalPrefix('v1');
 
@@ -31,6 +31,7 @@ async function bootstrap() {
       .setTitle('Boilerplate-nest-mongodb-server')
       .setDescription('this server is nestjs, mongodb boilerplate')
       .setVersion('1.0')
+      .setExternalDoc('스웨거 JSON', '/v1/doc-json')
       .build();
     const document = SwaggerModule.createDocument(app, config, {
       extraModels: [ResponseFormat],

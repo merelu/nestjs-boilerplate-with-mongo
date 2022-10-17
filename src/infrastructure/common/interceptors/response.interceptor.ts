@@ -6,6 +6,7 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
+  LoggerService,
   NestInterceptor,
 } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
@@ -32,6 +33,7 @@ export class BaseMetaResponseFormat implements IBaseMetaResponseFormat {
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
+  constructor(private readonly logger: LoggerService) {}
   intercept(
     context: ExecutionContext,
     next: CallHandler<ResponseFormat>,
@@ -41,16 +43,20 @@ export class ResponseInterceptor implements NestInterceptor {
     const request = httpContext.getRequest();
 
     return next.handle().pipe(
-      map((result) => ({
-        data: result.data,
-        meta: {
-          is_array: Array.isArray(result.data),
-          path: request.path,
-          duration: `${Date.now() - now}ms`,
-          method: request.method,
-          ...result.meta,
-        },
-      })),
+      map((result) => {
+        this.logger.debug(
+          'CONTEXT',
+          `is_array=${Array.isArray(result.data)} duration=${
+            Date.now() - now
+          }ms ${request.method} ${request.path}`,
+        );
+        return {
+          data: result.data,
+          meta: {
+            ...result.meta,
+          },
+        };
+      }),
     );
   }
 }
