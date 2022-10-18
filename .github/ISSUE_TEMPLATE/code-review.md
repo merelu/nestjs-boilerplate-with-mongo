@@ -1,9 +1,9 @@
 ---
 name: Code review
 about: Describe this issue template's purpose here.
-title: '[REVIEW]'
+title: "[REVIEW]"
 labels: question
-assignees: ''
+assignees: ""
 ---
 
 ## Scripts

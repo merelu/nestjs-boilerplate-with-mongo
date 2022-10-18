@@ -1,9 +1,9 @@
 ---
 name: New Feature
 about: Suggest a feature for this project
-title: '[NEW_FEATURE]'
+title: "[NEW_FEATURE]"
 labels: enhancement
-assignees: ''
+assignees: ""
 ---
 
 ## Describe New Feature.
