@@ -31,7 +31,6 @@ export class ContactController {
   ) {}
 
   @Post()
-  @AuthJwt()
   @ApiOperation({ description: 'Contact 추가' })
   @ApiResponseType(ContactPresenter, BaseMetaResponseFormat)
   async addContact(@Body() body: AddContactDto) {
