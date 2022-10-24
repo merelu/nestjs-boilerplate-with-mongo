@@ -18,7 +18,7 @@ async function bootstrap() {
 
   app.enableCors();
 
-  app.use(helmet());
+  // app.use(helmet());
   // filters
   app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
 
