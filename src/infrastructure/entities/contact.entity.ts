@@ -1,4 +1,12 @@
-import { PlatformEnum } from '@domain/common/enums/platform.enum';
+import {
+  BudgetScaleEnum,
+  ContactableTimeEnum,
+  DesignTypeEnum,
+  DevelopPeriodEnum,
+  ProjectScaleEnum,
+  ServicePlatformEnum,
+  ServiceTypeEnum,
+} from '@domain/common/enums';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { CustomSchemaOptions } from './custom.schema.option';
@@ -9,64 +17,87 @@ export type ContactDocument = Contact & Document;
 export class Contact {
   @Prop({
     type: String,
-    default: null,
+    required: true,
   })
   name: string;
 
   @Prop({
     type: String,
-    default: null,
+    required: true,
   })
-  mobile: string;
+  phone: string;
 
   @Prop({
     type: String,
-    default: null,
   })
   email: string;
 
   @Prop({
     type: String,
-    default: null,
+    required: true,
   })
-  company_name: string;
+  company: string;
 
   @Prop({
     type: String,
     default: null,
   })
-  duty: string;
-
-  @Prop({
-    type: String,
-    default: null,
-  })
-  project_name: string;
+  etc: string;
 
   @Prop({
     type: Number,
-    default: null,
+    enum: ServicePlatformEnum,
+    default: ServicePlatformEnum.TBD,
   })
-  max_budget: number;
-
-  @Prop({
-    type: String,
-    default: null,
-  })
-  planning_document_url: string;
+  service_platform: ServicePlatformEnum;
 
   @Prop({
     type: Number,
-    enum: PlatformEnum,
-    default: PlatformEnum.none,
+    enum: ServiceTypeEnum,
+    default: ServiceTypeEnum.TBD,
   })
-  platform: PlatformEnum;
+  service_type: ServiceTypeEnum;
 
   @Prop({
-    type: String,
+    type: Number,
+    enum: ProjectScaleEnum,
+    default: ProjectScaleEnum.TBD,
+  })
+  project_scale: ProjectScaleEnum;
+
+  @Prop({
+    type: Number,
+    enum: DesignTypeEnum,
+    default: DesignTypeEnum.TBD,
+  })
+  design_type: DesignTypeEnum;
+
+  @Prop({
+    type: Number,
+    enum: BudgetScaleEnum,
+    default: BudgetScaleEnum.TBD,
+  })
+  budget_scale: BudgetScaleEnum;
+
+  @Prop({
+    type: Number,
+    enum: DevelopPeriodEnum,
+    default: DevelopPeriodEnum.TBD,
+  })
+  develop_period: DevelopPeriodEnum;
+
+  @Prop({
+    type: Number,
+    enum: ContactableTimeEnum,
+    default: ContactableTimeEnum.TBD,
+  })
+  contactable_time: ContactableTimeEnum;
+
+  @Prop({
+    type: Date,
     default: null,
   })
-  brief_description: string;
+  reservation_date: Date;
 
   @Prop({
     type: Boolean,

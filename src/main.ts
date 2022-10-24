@@ -28,8 +28,8 @@ async function bootstrap() {
   if (env !== 'production') {
     const config = new DocumentBuilder()
       .addBearerAuth()
-      .setTitle('Boilerplate-nest-mongodb-server')
-      .setDescription('this server is nestjs, mongodb boilerplate')
+      .setTitle('Peaksum works')
+      .setDescription('Peaksum works API 문서입니다.')
       .setVersion('1.0')
       .setExternalDoc('스웨거 JSON', '/v1/doc-json')
       .build();
@@ -40,7 +40,7 @@ async function bootstrap() {
     SwaggerModule.setup('doc', app, document, {
       useGlobalPrefix: true,
       customCssUrl: '/static/swagger-material.css',
-      customSiteTitle: 'boilerplate-swagger',
+      customSiteTitle: 'Peaksum works swagger',
       customfavIcon: '/static/favicon.ico',
       swaggerOptions: {
         persistAuthorization: true,
