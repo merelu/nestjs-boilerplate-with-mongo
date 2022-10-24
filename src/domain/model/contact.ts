@@ -9,7 +9,7 @@ import {
 } from '@domain/common/enums';
 
 export class ContactM {
-  readonly id: string;
+  id: string;
 
   service_platform: ServicePlatformEnum;
 
@@ -39,7 +39,7 @@ export class ContactM {
 
   is_read: boolean;
 
-  readonly created_at: Date;
+  created_at: Date;
 
-  readonly updated_at: Date;
+  updated_at: Date;
 }
