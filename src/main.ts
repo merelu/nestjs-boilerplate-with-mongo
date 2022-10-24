@@ -7,12 +7,18 @@ import {
 import { LoggerService } from '@infrastructure/logger/logger.service';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const env = process.env.NODE_ENV;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
+
+  app.use(helmet());
   // filters
   app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
 
@@ -24,6 +30,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor(new LoggerService()));
 
   app.setGlobalPrefix('v1');
+
+  app.set('trust proxy', 1);
 
   if (env !== 'production') {
     const config = new DocumentBuilder()
