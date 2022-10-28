@@ -40,7 +40,7 @@ export class AuthController {
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: '로그인(이메일, 비밀번호)' })
   @ApiResponseType(IsAuthPresenter, BaseMetaResponseFormat)
-  async login(@User() user: UserM, @Res() res: Response) {
+  async login(@User() user: UserM, @Res({ passthrough: true }) res: Response) {
     const retAccess = this.loginUseCasesProxy
       .getInstance()
       .getJwtTokenAndCookie(user.id);
@@ -60,7 +60,10 @@ export class AuthController {
   @ApiBody({ type: RefreshTokenDto })
   @ApiResponseType(IsAuthPresenter, BaseMetaResponseFormat)
   @ApiOperation({ description: '토큰 재발급' })
-  async refresh(@User() user: UserM, @Res() res: Response) {
+  async refresh(
+    @User() user: UserM,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const retAccess = this.loginUseCasesProxy
       .getInstance()
       .getJwtTokenAndCookie(user.id);
@@ -78,7 +81,7 @@ export class AuthController {
   @Post('logout')
   @AuthJwt()
   @ApiOperation({ description: 'logout' })
-  async logout(@User() user: UserM, @Res() res: Response) {
+  async logout(@User() user: UserM, @Res({ passthrough: true }) res: Response) {
     const cookie = await this.logoutUseCasesProxy
       .getInstance()
       .execute(user.id);
