@@ -59,11 +59,7 @@ export class DatabaseUserRepository implements UserRepository {
   }
 
   private toUser(userEntity: UserDocument): UserM {
-<<<<<<< HEAD
-    const user: UserM = new UserM();
-=======
     const user = new UserM();
->>>>>>> upstream/main
     user.id = userEntity._id.toString();
     user.email = userEntity.email;
     user.password = userEntity.password;

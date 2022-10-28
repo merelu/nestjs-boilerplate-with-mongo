@@ -37,17 +37,6 @@ export class DatabaseContactRepository implements ContactRepository {
   private toContact(contactEntity: ContactDocument): ContactM {
     const contact: ContactM = new ContactM();
     contact.id = contactEntity._id.toString();
-<<<<<<< HEAD
-    contact.name = contactEntity.name;
-    contact.email = contactEntity.email;
-    contact.company_name = contactEntity.company_name;
-    contact.duty = contactEntity.duty;
-    contact.project_name = contactEntity.project_name;
-    contact.max_budget = contactEntity.max_budget;
-    contact.planning_document_url = contactEntity.planning_document_url;
-    contact.platform = contactEntity.platform;
-    contact.brief_description = contactEntity.brief_description;
-=======
 
     contact.name = contactEntity.name;
     contact.email = contactEntity.email;
@@ -65,7 +54,6 @@ export class DatabaseContactRepository implements ContactRepository {
     contact.contactable_time = contactEntity.contactable_time;
     contact.reservation_date = contactEntity.reservation_date;
 
->>>>>>> upstream/main
     contact.is_read = contactEntity.is_read;
     contact.created_at = contactEntity.created_at;
     contact.updated_at = contactEntity.updated_at;
@@ -74,19 +62,6 @@ export class DatabaseContactRepository implements ContactRepository {
   }
 
   private toContactEntity(contact: ContactM): Contact {
-<<<<<<< HEAD
-    const newContactEntity: Contact = new Contact();
-    newContactEntity.name = contact.name;
-    newContactEntity.email = contact.email;
-    newContactEntity.company_name = contact.company_name;
-    newContactEntity.duty = contact.duty;
-    newContactEntity.project_name = contact.project_name;
-    newContactEntity.max_budget = contact.max_budget;
-    newContactEntity.planning_document_url = contact.planning_document_url;
-    newContactEntity.platform = contact.platform;
-    newContactEntity.brief_description = contact.brief_description;
-    newContactEntity.email = contact.email;
-=======
     const newContactEntity = new Contact();
     newContactEntity.name = contact.name;
     newContactEntity.email = contact.email;
@@ -103,7 +78,6 @@ export class DatabaseContactRepository implements ContactRepository {
     newContactEntity.develop_period = contact.develop_period;
     newContactEntity.contactable_time = contact.contactable_time;
     newContactEntity.reservation_date = contact.reservation_date;
->>>>>>> upstream/main
 
     return newContactEntity;
   }
