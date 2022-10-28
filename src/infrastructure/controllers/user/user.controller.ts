@@ -1,10 +1,6 @@
 import { UserM } from '@domain/model/user';
 import { AuthJwt } from '@infrastructure/common/decorators/auth.decorator';
 import { User } from '@infrastructure/common/decorators/user.decorator';
-<<<<<<< HEAD
-import { JwtAuthGuard } from '@infrastructure/common/guards/jwt.auth.guard';
-=======
->>>>>>> upstream/main
 import {
   BaseMetaResponseFormat,
   ResponseFormat,

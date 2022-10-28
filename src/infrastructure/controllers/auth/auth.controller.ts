@@ -1,9 +1,6 @@
 import { UserM } from '@domain/model/user';
 import {
-<<<<<<< HEAD
-=======
   AuthJwt,
->>>>>>> upstream/main
   AuthLogin,
   AuthRefreshJwt,
 } from '@infrastructure/common/decorators/auth.decorator';
@@ -12,11 +9,7 @@ import { BaseMetaResponseFormat } from '@infrastructure/common/interceptors/resp
 import { ApiResponseType } from '@infrastructure/common/swagger/response.decorator';
 import { UseCasesProxyModule } from '@infrastructure/usercases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from '@infrastructure/usercases-proxy/usercases-proxy';
-<<<<<<< HEAD
-import { Controller, Inject, Post } from '@nestjs/common';
-=======
 import { Controller, Inject, Post, Res } from '@nestjs/common';
->>>>>>> upstream/main
 import {
   ApiBody,
   ApiExtraModels,
@@ -24,10 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-<<<<<<< HEAD
-=======
 import { Response } from 'express';
->>>>>>> upstream/main
 import { LoginUseCases } from 'src/usecases/auth/login.usecases';
 import { LogoutUseCases } from 'src/usecases/auth/logout.usecases';
 import { AuthLoginDto, RefreshTokenDto } from './auth.dto';
