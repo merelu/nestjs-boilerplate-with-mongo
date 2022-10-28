@@ -19,7 +19,7 @@ export class LoginUseCases {
     private readonly UuidService: IUuidService,
   ) {}
 
-  getJwtToken(userId: string) {
+  getJwtTokenAndCookie(userId: string) {
     this.logger.log(
       'LoginUseCases execute',
       `The user ${userId} have been logged(access_token).`,
@@ -29,10 +29,13 @@ export class LoginUseCases {
     const expiresIn = this.jwtConfig.getJwtExpirationTime() + 's';
     const token = this.jwtTokenService.createToken(payload, secret, expiresIn);
 
-    return token;
+    return {
+      token,
+      cookie: `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.jwtConfig.getJwtExpirationTime()}`,
+    };
   }
 
-  async getJwtRefreshToken(userId: string) {
+  async getJwtRefreshTokenAndCookie(userId: string) {
     this.logger.log(
       'LoginUseCases execute',
       `The user ${userId} have been logged(refresh_token).`,
@@ -48,7 +51,10 @@ export class LoginUseCases {
     const token = this.jwtTokenService.createToken(payload, secret, expiresIn);
     await this.setCurrentRefreshTokenHash(uuid, userId);
 
-    return token;
+    return {
+      token,
+      cookie: `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.jwtConfig.getJwtRefreshExpirationTime()}`,
+    };
   }
 
   async validateUserForLocalStrategy(

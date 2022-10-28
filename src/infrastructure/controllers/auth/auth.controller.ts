@@ -1,5 +1,6 @@
 import { UserM } from '@domain/model/user';
 import {
+  AuthJwt,
   AuthLogin,
   AuthRefreshJwt,
 } from '@infrastructure/common/decorators/auth.decorator';
@@ -8,7 +9,7 @@ import { BaseMetaResponseFormat } from '@infrastructure/common/interceptors/resp
 import { ApiResponseType } from '@infrastructure/common/swagger/response.decorator';
 import { UseCasesProxyModule } from '@infrastructure/usercases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from '@infrastructure/usercases-proxy/usercases-proxy';
-import { Controller, Inject, Post } from '@nestjs/common';
+import { Controller, Inject, Post, Res } from '@nestjs/common';
 import {
   ApiBody,
   ApiExtraModels,
@@ -16,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Response } from 'express';
 import { LoginUseCases } from 'src/usecases/auth/login.usecases';
 import { LogoutUseCases } from 'src/usecases/auth/logout.usecases';
 import { AuthLoginDto, RefreshTokenDto } from './auth.dto';
@@ -38,35 +40,50 @@ export class AuthController {
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: '로그인(이메일, 비밀번호)' })
   @ApiResponseType(IsAuthPresenter, BaseMetaResponseFormat)
-  async login(@User() user: UserM) {
-    const accessToken = this.loginUseCasesProxy
+  async login(@User() user: UserM, @Res() res: Response) {
+    const retAccess = this.loginUseCasesProxy
       .getInstance()
-      .getJwtToken(user.id);
+      .getJwtTokenAndCookie(user.id);
 
-    const refreshToken = await this.loginUseCasesProxy
+    const retRefresh = await this.loginUseCasesProxy
       .getInstance()
-      .getJwtRefreshToken(user.id);
+      .getJwtRefreshTokenAndCookie(user.id);
+    res.setHeader('Set-Cookie', [retAccess.cookie, retRefresh.cookie]);
 
     return {
-      data: { access_token: accessToken, refresh_token: refreshToken },
+      data: new IsAuthPresenter(retAccess.token, retRefresh.token),
     };
   }
 
   @Post('refresh')
   @AuthRefreshJwt()
   @ApiBody({ type: RefreshTokenDto })
+  @ApiResponseType(IsAuthPresenter, BaseMetaResponseFormat)
   @ApiOperation({ description: '토큰 재발급' })
-  async refresh(@User() user: UserM) {
-    const accessToken = this.loginUseCasesProxy
+  async refresh(@User() user: UserM, @Res() res: Response) {
+    const retAccess = this.loginUseCasesProxy
       .getInstance()
-      .getJwtToken(user.id);
+      .getJwtTokenAndCookie(user.id);
 
-    const refreshToken = await this.loginUseCasesProxy
+    const retRefresh = await this.loginUseCasesProxy
       .getInstance()
-      .getJwtRefreshToken(user.id);
+      .getJwtRefreshTokenAndCookie(user.id);
 
+    res.setHeader('Set-Cookie', [retAccess.cookie, retRefresh.cookie]);
     return {
-      data: { access_token: accessToken, refresh_token: refreshToken },
+      data: new IsAuthPresenter(retAccess.token, retRefresh.token),
     };
+  }
+
+  @Post('logout')
+  @AuthJwt()
+  @ApiOperation({ description: 'logout' })
+  async logout(@User() user: UserM, @Res() res: Response) {
+    const cookie = await this.logoutUseCasesProxy
+      .getInstance()
+      .execute(user.id);
+    res.setHeader('Set-Cookie', cookie);
+
+    return { data: 'Logout 성공' };
   }
 }

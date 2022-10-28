@@ -51,6 +51,9 @@ export class ContactPresenter {
   reservation_date: Date;
 
   @ApiProperty()
+  etc: string;
+
+  @ApiProperty()
   created_at: Date;
 
   constructor(contact: ContactM) {
@@ -66,6 +69,7 @@ export class ContactPresenter {
     this.develop_period = contact.develop_period;
     this.contactable_time = contact.contactable_time;
     this.reservation_date = contact.reservation_date;
+    this.etc = contact.etc;
     this.created_at = contact.created_at;
   }
 }

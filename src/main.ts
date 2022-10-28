@@ -7,6 +7,7 @@ import {
 import { LoggerService } from '@infrastructure/logger/logger.service';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
@@ -22,7 +23,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // app.use(helmet());
+  app.use(cookieParser);
+
+  app.use(helmet());
   // filters
   app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
 

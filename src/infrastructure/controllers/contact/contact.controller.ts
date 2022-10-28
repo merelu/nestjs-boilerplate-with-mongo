@@ -10,9 +10,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AddContactUseCases } from 'src/usecases/contact/add.contact.usecases';
-import { GetContactUseCases } from 'src/usecases/contact/get.contact.usecases';
-import { GetContactsUseCases } from 'src/usecases/contact/get.contacts.usecases';
+import { AddContactUseCases } from 'src/usecases/contact/addContact.usecases';
+import { GetContactUseCases } from 'src/usecases/contact/getContact.usecases';
+import { GetContactsUseCases } from 'src/usecases/contact/getContacts.usecases';
 import { AddContactDto } from './contact.dto';
 import { ContactPresenter } from './contact.presenter';
 

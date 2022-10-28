@@ -6,6 +6,7 @@ import { UseCasesProxyModule } from '@infrastructure/usercases-proxy/usecases-pr
 import { UseCaseProxy } from '@infrastructure/usercases-proxy/usercases-proxy';
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { LoginUseCases } from 'src/usecases/auth/login.usecases';
 
@@ -19,7 +20,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly configService: EnvironmentConfigService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: Request) => {
+          return request.cookies.Authentication;
+        },
+      ]),
       secretOrKey: configService.getJwtSecret(),
       ignoreExpiration: false,
     });
