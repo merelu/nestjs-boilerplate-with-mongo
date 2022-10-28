@@ -1,23 +1,37 @@
-import { PlatformEnum } from '@domain/common/enums/platform.enum';
+import {
+  BudgetScaleEnum,
+  ContactableTimeEnum,
+  DesignTypeEnum,
+  DevelopPeriodEnum,
+  ProjectScaleEnum,
+  ServicePlatformEnum,
+  ServiceTypeEnum,
+} from '@domain/common/enums';
 
 export interface IAddContactDto {
   readonly name: string;
 
-  readonly mobile: string;
+  readonly phone: string;
 
   readonly email: string;
 
-  readonly company_name: string;
+  readonly company: string;
 
-  readonly duty: string;
+  readonly etc: string;
 
-  readonly project_name: string;
+  readonly service_platform: ServicePlatformEnum;
 
-  readonly max_budget: number;
+  readonly service_type: ServiceTypeEnum;
 
-  readonly planning_document_url: string;
+  readonly project_scale: ProjectScaleEnum;
 
-  readonly platform: PlatformEnum;
+  readonly design_type: DesignTypeEnum;
 
-  readonly brief_description: string;
+  readonly budget_scale: BudgetScaleEnum;
+
+  readonly develop_period: DevelopPeriodEnum;
+
+  readonly contactable_time: ContactableTimeEnum;
+
+  readonly reservation_date: Date;
 }

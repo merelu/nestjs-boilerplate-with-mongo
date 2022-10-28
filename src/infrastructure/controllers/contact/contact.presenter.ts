@@ -1,3 +1,12 @@
+import {
+  BudgetScaleEnum,
+  ContactableTimeEnum,
+  DesignTypeEnum,
+  DevelopPeriodEnum,
+  ProjectScaleEnum,
+  ServicePlatformEnum,
+  ServiceTypeEnum,
+} from '@domain/common/enums';
 import { ContactM } from '@domain/model/contact';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -9,31 +18,40 @@ export class ContactPresenter {
   name: string;
 
   @ApiProperty()
-  mobile: string;
+  phone: string;
 
   @ApiProperty()
   email: string;
 
   @ApiProperty()
-  company_name: string;
+  company: string;
 
   @ApiProperty()
-  duty: string;
+  service_platform: ServicePlatformEnum;
 
   @ApiProperty()
-  project_name: string;
+  service_type: ServiceTypeEnum;
 
   @ApiProperty()
-  max_budget: number;
+  project_scale: ProjectScaleEnum;
 
   @ApiProperty()
-  planning_document_url: string;
+  budget_scale: BudgetScaleEnum;
 
   @ApiProperty()
-  platform: number;
+  design_type: DesignTypeEnum;
 
   @ApiProperty()
-  brief_description: string;
+  develop_period: DevelopPeriodEnum;
+
+  @ApiProperty()
+  contactable_time: ContactableTimeEnum;
+
+  @ApiProperty()
+  reservation_date: Date;
+
+  @ApiProperty()
+  etc: string;
 
   @ApiProperty()
   created_at: Date;
@@ -41,15 +59,17 @@ export class ContactPresenter {
   constructor(contact: ContactM) {
     this.id = contact.id;
     this.name = contact.name;
-    this.mobile = contact.mobile;
+    this.phone = contact.phone;
     this.email = contact.email;
-    this.company_name = contact.company_name;
-    this.duty = contact.duty;
-    this.project_name = contact.project_name;
-    this.max_budget = contact.max_budget;
-    this.planning_document_url = contact.planning_document_url;
-    this.platform = contact.platform;
-    this.brief_description = contact.brief_description;
+    this.company = contact.company;
+    this.service_platform = contact.service_platform;
+    this.service_type = contact.service_type;
+    this.project_scale = contact.project_scale;
+    this.design_type = contact.design_type;
+    this.develop_period = contact.develop_period;
+    this.contactable_time = contact.contactable_time;
+    this.reservation_date = contact.reservation_date;
+    this.etc = contact.etc;
     this.created_at = contact.created_at;
   }
 }

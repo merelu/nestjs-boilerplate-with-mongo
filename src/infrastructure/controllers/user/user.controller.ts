@@ -1,7 +1,10 @@
 import { UserM } from '@domain/model/user';
 import { AuthJwt } from '@infrastructure/common/decorators/auth.decorator';
 import { User } from '@infrastructure/common/decorators/user.decorator';
+<<<<<<< HEAD
 import { JwtAuthGuard } from '@infrastructure/common/guards/jwt.auth.guard';
+=======
+>>>>>>> upstream/main
 import {
   BaseMetaResponseFormat,
   ResponseFormat,
@@ -9,17 +12,8 @@ import {
 import { ApiResponseType } from '@infrastructure/common/swagger/response.decorator';
 import { UseCasesProxyModule } from '@infrastructure/usercases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from '@infrastructure/usercases-proxy/usercases-proxy';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
-import {
-  ApiBearerAuth,
   ApiExtraModels,
   ApiOperation,
   ApiResponse,
@@ -56,7 +50,7 @@ export class UserController {
 
   @Get('me')
   @AuthJwt()
-  @ApiOperation({ description: '유저 정보 호출' })
+  @ApiOperation({ description: '유저 정보 호출(And 로그인 확인)' })
   @ApiResponseType(UserPresenter, BaseMetaResponseFormat)
   async getUser(@User() user: UserM): Promise<ResponseFormat> {
     return { data: new UserPresenter(user), meta: null };

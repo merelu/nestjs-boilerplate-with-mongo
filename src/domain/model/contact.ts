@@ -1,27 +1,41 @@
-import { PlatformEnum } from '@domain/common/enums/platform.enum';
+import {
+  BudgetScaleEnum,
+  ContactableTimeEnum,
+  DesignTypeEnum,
+  DevelopPeriodEnum,
+  ProjectScaleEnum,
+  ServicePlatformEnum,
+  ServiceTypeEnum,
+} from '@domain/common/enums';
 
 export class ContactM {
   id: string;
 
+  service_platform: ServicePlatformEnum;
+
+  service_type: ServiceTypeEnum;
+
+  project_scale: ProjectScaleEnum;
+
+  budget_scale: BudgetScaleEnum;
+
+  design_type: DesignTypeEnum;
+
+  develop_period: DevelopPeriodEnum;
+
+  contactable_time: ContactableTimeEnum;
+
+  reservation_date: Date;
+
   name: string;
 
-  mobile: string;
+  phone: string;
 
   email: string;
 
-  company_name: string;
+  company: string;
 
-  duty: string;
-
-  project_name: string;
-
-  max_budget: number;
-
-  planning_document_url: string;
-
-  platform: PlatformEnum;
-
-  brief_description: string;
+  etc: string;
 
   is_read: boolean;
 

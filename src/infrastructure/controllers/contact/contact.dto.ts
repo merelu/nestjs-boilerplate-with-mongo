@@ -1,8 +1,17 @@
-import { PlatformEnum } from '@domain/common/enums/platform.enum';
+import {
+  ServicePlatformEnum,
+  ServiceTypeEnum,
+  ProjectScaleEnum,
+  DesignTypeEnum,
+  BudgetScaleEnum,
+  DevelopPeriodEnum,
+  ContactableTimeEnum,
+} from '@domain/common/enums';
 import { IAddContactDto } from '@domain/dto/contact.dto.interface';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsDate,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -19,7 +28,7 @@ export class AddContactDto implements IAddContactDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  mobile: string;
+  phone: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
@@ -29,37 +38,65 @@ export class AddContactDto implements IAddContactDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  company_name: string;
+  company: string;
 
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
+  @ApiProperty({ required: false })
   @IsString()
-  duty: string;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  @IsString()
-  project_name: string;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  @IsNumber()
-  max_budget: number;
-
-  @ApiProperty({ required: true })
   @IsOptional()
-  @IsString()
-  planning_document_url: string;
+  etc: string;
 
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
+  @ApiProperty({ required: false })
+  @IsOptional()
   @Type(() => Number)
-  @IsEnum(PlatformEnum)
+  @IsEnum(ServicePlatformEnum)
   @IsNumber()
-  platform: PlatformEnum;
+  service_platform: ServicePlatformEnum;
 
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(ServiceTypeEnum)
   @IsNumber()
-  brief_description: string;
+  service_type: ServiceTypeEnum;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(ProjectScaleEnum)
+  @IsNumber()
+  project_scale: ProjectScaleEnum;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(DesignTypeEnum)
+  @IsNumber()
+  design_type: DesignTypeEnum;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(BudgetScaleEnum)
+  @IsNumber()
+  budget_scale: BudgetScaleEnum;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(DevelopPeriodEnum)
+  @IsNumber()
+  develop_period: DevelopPeriodEnum;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(ContactableTimeEnum)
+  @IsNumber()
+  contactable_time: ContactableTimeEnum;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  reservation_date: Date;
 }

@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { getMessaging } from 'firebase-admin/messaging';
 import {
   initializeApp,

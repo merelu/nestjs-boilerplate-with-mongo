@@ -18,17 +18,14 @@ export class ResponseFormat implements IResponseFormat {
 }
 
 export class BaseMetaResponseFormat implements IBaseMetaResponseFormat {
-  @ApiProperty()
-  is_array?: boolean;
-
-  @ApiProperty()
-  path?: string;
-
-  @ApiProperty()
-  duration?: string;
-
-  @ApiProperty()
-  method?: string;
+  // @ApiProperty()
+  // is_array?: boolean;
+  // @ApiProperty()
+  // path?: string;
+  // @ApiProperty()
+  // duration?: string;
+  // @ApiProperty()
+  // method?: string;
 }
 
 @Injectable()
